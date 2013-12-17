@@ -35,6 +35,27 @@ public class SolutionForOne {
 		}
 	}
 
+	// 1.3
+	public boolean ifPermutation(String str1, String str2) {
+		if (str1.length() != str2.length()) {
+			return false;
+		}
+
+		int[] chars = new int[256];
+		for (int i = 0; i < str1.length(); i++) {
+			int charNum = str1.charAt(i);
+			chars[charNum] += 1;
+		}
+		for (int i = 0; i < str2.length(); i++) {
+			int charNum = str2.charAt(i);
+			if (chars[charNum] == 0) {
+				return false;
+			}
+			chars[charNum] -= 1;
+		}
+		return true;
+	}
+
 	@Test
 	public void test1() {
 		System.out.println(isUnique("great"));
@@ -46,5 +67,10 @@ public class SolutionForOne {
 		System.out.println(myChar);
 		reverse(myChar);
 		System.out.println(myChar);
+	}
+
+	@Test
+	public void test3() {
+		System.out.println(ifPermutation("fhelllo", "hlhello"));
 	}
 }
