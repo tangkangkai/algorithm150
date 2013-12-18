@@ -43,17 +43,41 @@ public class SolutionForOne {
 
 		int[] chars = new int[256];
 		for (int i = 0; i < str1.length(); i++) {
-			int charNum = str1.charAt(i);
-			chars[charNum] += 1;
+			chars[str1.charAt(i)] += 1;
 		}
 		for (int i = 0; i < str2.length(); i++) {
-			int charNum = str2.charAt(i);
-			if (chars[charNum] == 0) {
+
+			if (chars[str2.charAt(i)] == 0) {
 				return false;
 			}
-			chars[charNum] -= 1;
+			chars[str2.charAt(i)] -= 1;
 		}
 		return true;
+	}
+
+	// 1.4
+	public void replaceSpace(char[] chars) {
+		int length = chars.length;
+		int spaceCount = 0;
+		for (int i = 0; i < length; i++) {
+			if (chars[i] == ' ') {
+				spaceCount++;
+			}
+		}
+		int newLength = length + spaceCount * 2;
+		char[] tempChars = new char[newLength];
+
+		for (int i = 0, j = 0; i < length; i++) {
+			if (chars[i] == ' ') {
+				tempChars[j++] = '%';
+				tempChars[j++] = '2';
+				tempChars[j++] = '0';
+			} else {
+				tempChars[j++] = chars[i];
+			}
+		}
+		
+		System.out.println(tempChars);
 	}
 
 	@Test
@@ -71,6 +95,22 @@ public class SolutionForOne {
 
 	@Test
 	public void test3() {
-		System.out.println(ifPermutation("fhelllo", "hlhello"));
+		System.out.println(ifPermutation("helllo", "lhello"));
+	}
+
+	@Test
+	public void test4() {
+		char[] chars = "".toCharArray();
+		// System.out.println();
+		
+		replaceSpace(chars);
+	}
+
+	@Test
+	public void generalTest() {
+		char[] testChar = new char[2];
+		for (int i : testChar) {
+			System.out.println(i);
+		}
 	}
 }
