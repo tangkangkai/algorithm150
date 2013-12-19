@@ -76,8 +76,32 @@ public class SolutionForOne {
 				tempChars[j++] = chars[i];
 			}
 		}
-		
+
 		System.out.println(tempChars);
+	}
+
+	// 1.5
+	public String strCompress(String str) {
+		StringBuffer sb = new StringBuffer();
+
+		int charCount = 1;
+		char[] charArray = str.toCharArray();
+		char last = charArray[0];
+
+		for (int i = 1; i < charArray.length; i++) {
+			if (charArray[i] == last) {
+				charCount++;
+			} else {
+				sb.append(last);
+				sb.append(charCount);
+				last = charArray[i];
+				charCount = 1;
+			}
+		}
+		sb.append(last);
+		sb.append(charCount);
+
+		return sb.length() < str.length() ? sb.toString() : str;
 	}
 
 	@Test
@@ -102,15 +126,23 @@ public class SolutionForOne {
 	public void test4() {
 		char[] chars = "".toCharArray();
 		// System.out.println();
-		
+
 		replaceSpace(chars);
 	}
 
 	@Test
+	public void test5() {
+		System.out.println(strCompress("aabcccccccccccccccccaaa"));
+	}
+
+	@Test
 	public void generalTest() {
-		char[] testChar = new char[2];
-		for (int i : testChar) {
-			System.out.println(i);
-		}
+		StringBuffer sb = new StringBuffer();
+		sb.append("h");
+		sb.append("hello");
+		// System.out.println(sb.toString());
+
+		char[] charArray = String.valueOf(22).toCharArray();
+		System.out.println(charArray.length);
 	}
 }
