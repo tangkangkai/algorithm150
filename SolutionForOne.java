@@ -138,6 +138,41 @@ public class SolutionForOne {
 		}
 	}
 
+	// 1.7
+	// the first change will affect the matrix and the following judge
+	public void setZero(int matrix[][]) {
+		int M = matrix.length;
+		int N = matrix[0].length;
+		
+		boolean[] ifRowZero = new boolean[M];
+		boolean[] ifColumnZero = new boolean[N];
+
+		for (int i = 0; i < M; i++) {
+			for (int j = 0; j < N; j++) {
+				if (matrix[i][j] == 0) {
+					ifRowZero[i] = true;
+					ifColumnZero[j] = true;
+				}
+			}
+		}
+
+		for (int i = 0; i < M; i++) {
+			if (ifRowZero[i]) {
+				for (int j = 0; j < N; j++) {
+					matrix[i][j] = 0;
+				}
+			}
+		}
+
+		for (int j = 0; j < N; j++) {
+			if (ifColumnZero[j]) {
+				for (int i = 0; i < M; i++) {
+					matrix[i][j] = 0;
+				}
+			}
+		}
+	}
+
 	@Test
 	public void test1() {
 		System.out.println(isUnique("great"));
@@ -171,8 +206,8 @@ public class SolutionForOne {
 
 	@Test
 	public void test6() {
-		int[][] testMatrix = new int[][] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 },
-				{ 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
+		int[][] testMatrix = new int[][] { { 1, 2, 3 }, { 4, 5, 6 },
+				{ 7, 8, 9 } };
 
 		printMatrix(testMatrix);
 
@@ -193,8 +228,20 @@ public class SolutionForOne {
 	}
 
 	@Test
+	public void test7() {
+		int[][] testMatrix = new int[][] { { 1, 2, 0}, { 4, 0, 6 },
+				{ 7, 8, 9 } };
+		printMatrix(testMatrix);
+
+		System.out.println("========");
+		setZero(testMatrix);
+		printMatrix(testMatrix);
+
+	}
+
+	@Test
 	public void generalTest() {
-		int[][] matrix = new int[3][3];
-		System.out.println(matrix.length);
+		boolean[] test = new boolean[3];
+		System.out.println(test[0]);
 	}
 }
