@@ -143,7 +143,7 @@ public class SolutionForOne {
 	public void setZero(int matrix[][]) {
 		int M = matrix.length;
 		int N = matrix[0].length;
-		
+
 		boolean[] ifRowZero = new boolean[M];
 		boolean[] ifColumnZero = new boolean[N];
 
@@ -171,6 +171,54 @@ public class SolutionForOne {
 				}
 			}
 		}
+	}
+
+	// 1.8
+	public boolean isRotate(String str1, String str2) {
+		if (str1.length() != str2.length()) {
+			return false;
+		}
+
+		for (int i = 0; i < str2.length(); i++) {
+			int index1 = 0;
+			boolean flag = true; // to see if the following string match the
+									// origin strng
+			if (str2.charAt(i) == str1.charAt(index1)) {
+
+				for (int j = i; j < str2.length(); j++) {
+					if (str1.charAt(index1++) != str2.charAt(j)) {
+						flag = false;
+					}
+				}
+
+				if (flag) {
+					if (str1.contains(str2.substring(0, i))) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	//1.8 better solution
+	public boolean isRotate2(String str1, String str2) {
+		
+		int len = str1.length();
+		
+		if(str2.length() == len && len>0) {
+			str1 = str1 + str1;
+			if(str1.contains(str2)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		return false;
+		
 	}
 
 	@Test
@@ -229,7 +277,7 @@ public class SolutionForOne {
 
 	@Test
 	public void test7() {
-		int[][] testMatrix = new int[][] { { 1, 2, 0}, { 4, 0, 6 },
+		int[][] testMatrix = new int[][] { { 1, 2, 0 }, { 4, 0, 6 },
 				{ 7, 8, 9 } };
 		printMatrix(testMatrix);
 
@@ -240,8 +288,13 @@ public class SolutionForOne {
 	}
 
 	@Test
+	public void test8() {
+		System.out.println(isRotate("waterbottle", "erbottlewat"));
+		System.out.println(isRotate2("waterbottle", "erbottlewta"));
+	}
+
+	@Test
 	public void generalTest() {
-		boolean[] test = new boolean[3];
-		System.out.println(test[0]);
+		System.out.println("waterbottle".contains("erbottle"));
 	}
 }
