@@ -104,6 +104,40 @@ public class SolutionForOne {
 		return sb.length() < str.length() ? sb.toString() : str;
 	}
 
+	// 1.6
+	// make the names of variables understandable
+
+	public int[][] rotateMatrix(int[][] matrix) {
+		if (matrix == null) {
+			return null;
+		}
+
+		int N = matrix.length;
+
+		for (int layer = 0; layer < N / 2; layer++) {
+			rotateBorder(matrix, layer, N);
+		}
+
+		return matrix;
+	}
+
+	// rotate the matrix Border, but not the whole matrix
+	// i means row, n means the orgin size of the matrix
+
+	private void rotateBorder(int[][] matrix, int layer, int N) {
+		int first = layer;
+		int last = N - 1 - layer;
+		for (int element = first; element < last; element++) {
+			int top = matrix[layer][element];
+			matrix[layer][element] = matrix[N - 1 - element][layer];
+			matrix[N - 1 - element][layer] = matrix[N - 1 - layer][N - 1
+					- element];
+			matrix[N - 1 - layer][N - 1 - element] = matrix[element][N - 1
+					- layer];
+			matrix[element][N - 1 - layer] = top;
+		}
+	}
+
 	@Test
 	public void test1() {
 		System.out.println(isUnique("great"));
@@ -132,17 +166,35 @@ public class SolutionForOne {
 
 	@Test
 	public void test5() {
-		System.out.println(strCompress("aabcccccccccccccccccaaa"));
+		System.out.println(strCompress("aaab"));
+	}
+
+	@Test
+	public void test6() {
+		int[][] testMatrix = new int[][] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 },
+				{ 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
+
+		printMatrix(testMatrix);
+
+		System.out.println("========");
+		int[][] rotateMatrix = rotateMatrix(testMatrix);
+
+		printMatrix(rotateMatrix);
+
+	}
+
+	public void printMatrix(int[][] matrix) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				System.out.print(matrix[i][j] + "    ");
+			}
+			System.out.println();
+		}
 	}
 
 	@Test
 	public void generalTest() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("h");
-		sb.append("hello");
-		// System.out.println(sb.toString());
-
-		char[] charArray = String.valueOf(22).toCharArray();
-		System.out.println(charArray.length);
+		int[][] matrix = new int[3][3];
+		System.out.println(matrix.length);
 	}
 }
