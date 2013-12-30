@@ -1,4 +1,4 @@
-package one;
+package algorithm150;
 
 //CareerCup 1
 //by Kangkai Tang

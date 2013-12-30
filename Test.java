@@ -1,4 +1,4 @@
-package one;
+package algorithm150;
 
 public class Test {
 	public static void test1() {
