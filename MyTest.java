@@ -1,6 +1,8 @@
 package algorithm150;
 
-public class Test {
+import org.junit.Test;
+
+public class MyTest {
 	public static void test1() {
 		System.out.println(2 & 1);
 	}
@@ -22,5 +24,6 @@ public class Test {
 
 	public static void main(String[] args) {
 		System.out.println(isUniqueString("abcdefg"));
+
 	}
 }
