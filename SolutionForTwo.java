@@ -24,6 +24,21 @@ public class SolutionForTwo {
 
 	}
 
+	public void withoutBuffer(Node n) {
+		Node head = n;
+
+		while (head != null) {
+			Node current = head.next;
+			while (current != null) {
+				if (head.data == current.data) {
+					n.deleteNode(current);
+				}
+				current = current.next;
+			}
+			head = head.next;
+		}
+	}
+
 	@Test
 	public void test1() {
 		Node n0 = new Node(0);
@@ -43,7 +58,8 @@ public class SolutionForTwo {
 		n5.next = n6;
 		n6.next = n7;
 
-		withBuffer(n0);
+		System.out.println(n0);
+		withoutBuffer(n0);
 		System.out.println(n0);
 
 	}
@@ -90,7 +106,7 @@ class Node {
 		while (deleteNode.next != null) {
 			if (deleteNode.next.equals(n)) {
 				deleteNode.next = deleteNode.next.next;
-				return; 
+				return;
 			}
 
 			deleteNode = deleteNode.next;
