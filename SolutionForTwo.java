@@ -1,19 +1,21 @@
 package algorithm150;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.LinkedList;
 
 import org.junit.Test;
 
 public class SolutionForTwo {
 
 	// 2.1
-	public void withBuffer(Node n) {
+	public void withBuffer(LinkedListNode n) {
 		ArrayList<Integer> al = new ArrayList<>();
 
-		Node pointer = n;
+		LinkedListNode pointer = n;
 		while (pointer != null) {
 			if (al.contains(pointer.data)) {
-				n.deleteNode(pointer);
+				n.deleteLinkedListNode(pointer);
 			} else {
 				al.add(pointer.data);
 			}
@@ -21,17 +23,32 @@ public class SolutionForTwo {
 			pointer = pointer.next;
 
 		}
+	}
+
+	public void usingHashTable(LinkedListNode n) {
+		LinkedListNode previous = n;
+		Hashtable table = new Hashtable<>();
+
+		while (n != null) {
+			if (table.containsKey(n.data)) {
+				previous.next = n.next;
+			} else {
+				table.put(n.data, true);
+				previous = n;
+			}
+			n = n.next;
+		}
 
 	}
 
-	public void withoutBuffer(Node n) {
-		Node head = n;
+	public void withoutBuffer(LinkedListNode n) {
+		LinkedListNode head = n;
 
 		while (head != null) {
-			Node current = head.next;
+			LinkedListNode current = head.next;
 			while (current != null) {
 				if (head.data == current.data) {
-					n.deleteNode(current);
+					n.deleteLinkedListNode(current);
 				}
 				current = current.next;
 			}
@@ -39,16 +56,38 @@ public class SolutionForTwo {
 		}
 	}
 
+	// 2.2
+	public LinkedListNode kthToLastNode(int k, LinkedListNode n) {
+		int index = n.length() - k;
+
+		while (index > 0 && n != null) {
+			index -= 1;
+			n = n.next;
+		}
+
+		return n;
+	}
+
+	public LinkedListNode kthToLastNode2(int k, int i, LinkedListNode n) {
+		if(n == null) {
+			return null;
+		}
+		
+		
+		
+		return null;
+	}
+
 	@Test
 	public void test1() {
-		Node n0 = new Node(0);
-		Node n1 = new Node(1);
-		Node n2 = new Node(2);
-		Node n3 = new Node(3);
-		Node n4 = new Node(2);
-		Node n5 = new Node(3);
-		Node n6 = new Node(6);
-		Node n7 = new Node(0);
+		LinkedListNode n0 = new LinkedListNode(0);
+		LinkedListNode n1 = new LinkedListNode(1);
+		LinkedListNode n2 = new LinkedListNode(2);
+		LinkedListNode n3 = new LinkedListNode(3);
+		LinkedListNode n4 = new LinkedListNode(2);
+		LinkedListNode n5 = new LinkedListNode(3);
+		LinkedListNode n6 = new LinkedListNode(6);
+		LinkedListNode n7 = new LinkedListNode(0);
 
 		n0.next = n1;
 		n1.next = n2;
@@ -58,9 +97,14 @@ public class SolutionForTwo {
 		n5.next = n6;
 		n6.next = n7;
 
+		// System.out.println(n0);
+		// usingHashTable(n0);
+		// System.out.println(n0);
+
 		System.out.println(n0);
-		withoutBuffer(n0);
-		System.out.println(n0);
+		System.out.println(n0.length());
+
+		System.out.println(kthToLastNode(2, n0).data);
 
 	}
 
@@ -69,28 +113,28 @@ public class SolutionForTwo {
 	}
 }
 
-class Node {
+class LinkedListNode {
 
 	public int data;
-	public Node next;
+	public LinkedListNode next;
 
-	public Node(int d) {
+	public LinkedListNode(int d) {
 		data = d;
 	}
 
 	public void append(int d) {
 		if (this.next == null) {
-			this.next = new Node(d);
+			this.next = new LinkedListNode(d);
 		} else {
-			Node n = new Node(d);
+			LinkedListNode n = new LinkedListNode(d);
 			n.next = this.next;
 			this.next = n;
 		}
 	}
 
 	public void appendToTail(int d) {
-		Node end = new Node(d);
-		Node n = this;
+		LinkedListNode end = new LinkedListNode(d);
+		LinkedListNode n = this;
 
 		while (n.next != null) {
 			n = n.next;
@@ -99,23 +143,34 @@ class Node {
 		n.next = end;
 	}
 
-	public void deleteNode(Node n) {
+	public void deleteLinkedListNode(LinkedListNode n) {
 
-		Node deleteNode = this;
+		LinkedListNode deleteLinkedListNode = this;
 
-		while (deleteNode.next != null) {
-			if (deleteNode.next.equals(n)) {
-				deleteNode.next = deleteNode.next.next;
+		while (deleteLinkedListNode.next != null) {
+			if (deleteLinkedListNode.next.equals(n)) {
+				deleteLinkedListNode.next = deleteLinkedListNode.next.next;
 				return;
 			}
 
-			deleteNode = deleteNode.next;
+			deleteLinkedListNode = deleteLinkedListNode.next;
 		}
 
 	}
 
+	public int length() {
+		LinkedListNode n = this;
+		int k = 0;
+		while (n != null) {
+			k += 1;
+			n = n.next;
+		}
+
+		return k;
+	}
+
 	public String toString() {
-		Node n = this;
+		LinkedListNode n = this;
 		if (n.next == null) {
 			return String.valueOf(n.data);
 		} else {
@@ -125,10 +180,10 @@ class Node {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this.data == ((Node) obj).data) {
-			if (this.next == null && ((Node) obj).next == null) {
+		if (this.data == ((LinkedListNode) obj).data) {
+			if (this.next == null && ((LinkedListNode) obj).next == null) {
 				return true;
-			} else if (this.next == ((Node) obj).next) {
+			} else if (this.next == ((LinkedListNode) obj).next) {
 				return true;
 			}
 		}
