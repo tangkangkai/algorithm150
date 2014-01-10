@@ -68,14 +68,23 @@ public class SolutionForTwo {
 		return n;
 	}
 
-	public LinkedListNode kthToLastNode2(int k, int i, LinkedListNode n) {
-		if(n == null) {
+	class Wrapper {
+		public int value = 0;
+	}
+
+	public LinkedListNode kthToLastNode2(int k, Wrapper i, LinkedListNode n) {
+		if (n == null) {
 			return null;
 		}
+
+		LinkedListNode testNode = kthToLastNode2(k, i, n.next);
+		i.value += 1;
 		
-		
-		
-		return null;
+		if(i.value == k) {
+			return n;
+		}
+
+		return testNode;
 	}
 
 	@Test
@@ -102,9 +111,8 @@ public class SolutionForTwo {
 		// System.out.println(n0);
 
 		System.out.println(n0);
-		System.out.println(n0.length());
 
-		System.out.println(kthToLastNode(2, n0).data);
+		System.out.println(kthToLastNode2(3, new Wrapper(), n0).data);
 
 	}
 
