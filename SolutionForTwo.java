@@ -86,7 +86,16 @@ public class SolutionForTwo {
 
 		return testNode;
 	}
-
+	
+	//2.3 
+	//copy the data of next node to the current node, and delete the next node
+	public void deleteMiddle(LinkedListNode n) {
+		n.data = n.next.data;
+		n.deleteLinkedListNode(n.next);
+	}
+	
+	//2.4
+	
 	@Test
 	public void test1() {
 		LinkedListNode n0 = new LinkedListNode(0);
@@ -104,15 +113,17 @@ public class SolutionForTwo {
 		n3.next = n4;
 		n4.next = n5;
 		n5.next = n6;
-		n6.next = n7;
 
 		// System.out.println(n0);
 		// usingHashTable(n0);
 		// System.out.println(n0);
 
 		System.out.println(n0);
+		deleteMiddle(n3);
+		System.out.println(n0);
+		n0.appendToTail(5);
+		System.out.println(n0);
 
-		System.out.println(kthToLastNode2(3, new Wrapper(), n0).data);
 
 	}
 
