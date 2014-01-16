@@ -79,23 +79,59 @@ public class SolutionForTwo {
 
 		LinkedListNode testNode = kthToLastNode2(k, i, n.next);
 		i.value += 1;
-		
-		if(i.value == k) {
+
+		if (i.value == k) {
 			return n;
 		}
 
 		return testNode;
 	}
-	
-	//2.3 
-	//copy the data of next node to the current node, and delete the next node
+
+	// 2.3
+	// copy the data of next node to the current node, and delete the next node
 	public void deleteMiddle(LinkedListNode n) {
 		n.data = n.next.data;
 		n.deleteLinkedListNode(n.next);
 	}
-	
-	//2.4
-	
+
+	// 2.4
+	public LinkedListNode partition(LinkedListNode n, int x) {
+		LinkedListNode beforeStart = null;
+		LinkedListNode beforeEnd = null;
+		LinkedListNode afterStart = null;
+		LinkedListNode afterEnd = null;
+
+		LinkedListNode traversalNode = n;
+		while (traversalNode != null) {
+			if (traversalNode.data < x) {
+				if (beforeStart == null) {
+					beforeStart = traversalNode;
+					beforeEnd = beforeStart;
+				} else {
+					beforeEnd.next = traversalNode;
+					beforeEnd = traversalNode;
+				}
+			} else {
+				if (afterStart == null) {
+					afterStart = traversalNode;
+					afterEnd = afterStart;
+				} else {
+					afterEnd.next = traversalNode;
+					afterEnd = traversalNode;
+				}
+			}
+			traversalNode = traversalNode.next;
+		}
+		
+		if (beforeStart == null) {
+			return afterStart;
+		} else {
+			beforeEnd.next = afterStart;
+			return beforeStart;
+		}
+
+	}
+
 	@Test
 	public void test1() {
 		LinkedListNode n0 = new LinkedListNode(0);
@@ -113,17 +149,9 @@ public class SolutionForTwo {
 		n3.next = n4;
 		n4.next = n5;
 		n5.next = n6;
-
-		// System.out.println(n0);
-		// usingHashTable(n0);
-		// System.out.println(n0);
-
+		
 		System.out.println(n0);
-		deleteMiddle(n3);
-		System.out.println(n0);
-		n0.appendToTail(5);
-		System.out.println(n0);
-
+		System.out.println(partition(n0, 3));
 
 	}
 
