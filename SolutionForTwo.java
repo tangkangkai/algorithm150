@@ -122,7 +122,7 @@ public class SolutionForTwo {
 			}
 			traversalNode = traversalNode.next;
 		}
-		
+
 		if (beforeStart == null) {
 			return afterStart;
 		} else {
@@ -130,6 +130,36 @@ public class SolutionForTwo {
 			return beforeStart;
 		}
 
+	}
+
+	public LinkedListNode partition2(LinkedListNode n, int x) {
+		LinkedListNode beforeStart = null;
+		LinkedListNode afterSttart = null;
+
+		while (n != null) {
+			LinkedListNode next = n.next;
+
+			if (n.data < x) {
+				n.next = beforeStart;
+				beforeStart = n;
+			} else {
+				n.next = afterSttart;
+				afterSttart = n;
+			}
+			n = next;
+		}
+
+		if (beforeStart == null) {
+			return afterSttart;
+		}
+
+		LinkedListNode link = beforeStart;
+
+		while (link.next != null) {
+			link = link.next;
+		}
+		link.next = afterSttart;
+		return beforeStart;
 	}
 
 	@Test
@@ -149,9 +179,10 @@ public class SolutionForTwo {
 		n3.next = n4;
 		n4.next = n5;
 		n5.next = n6;
-		
+
 		System.out.println(n0);
-		System.out.println(partition(n0, 3));
+		// System.out.println(partition(n0, 3));
+		System.out.println(partition2(n0, 3));
 
 	}
 
