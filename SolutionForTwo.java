@@ -2,7 +2,6 @@ package algorithm150;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.LinkedList;
 
 import org.junit.Test;
 
@@ -162,32 +161,95 @@ public class SolutionForTwo {
 		return beforeStart;
 	}
 
+	// 2.5
+	public LinkedListNode addListReverse(LinkedListNode n1, LinkedListNode n2) {
+		LinkedListNode sumList = new LinkedListNode(0);
+		LinkedListNode travelList = sumList;
+		int flag = 0; // 标志有无进位
+
+		if (n1 == null && n2 == null) {
+			return null;
+		}
+
+		while (n1 != null && n2 != null) {
+			int sum = n1.data + n2.data + flag;
+			travelList.data = sum % 10;
+			flag = sum / 10;
+			travelList.next = new LinkedListNode(0);
+			travelList = travelList.next;
+			n1 = n1.next;
+			n2 = n2.next;
+		}
+
+		if (n1 == null) {
+			while (n2 != null) {
+				int sum = n2.data + flag;
+				flag = sum / 10;
+				travelList.data = sum % 10;
+				travelList.next = new LinkedListNode(0);
+				travelList = travelList.next;
+				n2 = n2.next;
+			}
+			if (flag == 1) {
+				travelList.data = 1;
+			} else {
+				sumList.deleteLinkedListNode(travelList);
+			}
+		} else {
+			while (n1 != null) {
+				int sum = n1.data + flag;
+				flag = sum / 10;
+				travelList.data = sum % 10;
+				travelList.next = new LinkedListNode(0);
+				n1 = n1.next;
+			}
+			if (flag == 1) {
+				travelList.data = 1;
+			} else {
+				sumList.deleteLinkedListNode(travelList);
+			}
+		}
+
+		return sumList;
+	}
+	
+	public LinkedListNode addListReverse(LinkedListNode n1, LinkedListNode n2) {
+		
+		return null;
+	}
+
+	public LinkedListNode addListForward(LinkedListNode n1, LinkedListNode n2) {
+
+		return null;
+	}
+
 	@Test
 	public void test1() {
-		LinkedListNode n0 = new LinkedListNode(0);
+		LinkedListNode n0 = new LinkedListNode(7);
 		LinkedListNode n1 = new LinkedListNode(1);
-		LinkedListNode n2 = new LinkedListNode(2);
-		LinkedListNode n3 = new LinkedListNode(3);
-		LinkedListNode n4 = new LinkedListNode(2);
+		LinkedListNode n2 = new LinkedListNode(6);
+		LinkedListNode n3 = new LinkedListNode(5);
+		LinkedListNode n4 = new LinkedListNode(9);
 		LinkedListNode n5 = new LinkedListNode(3);
-		LinkedListNode n6 = new LinkedListNode(6);
-		LinkedListNode n7 = new LinkedListNode(0);
+		LinkedListNode n6 = new LinkedListNode(2);
 
 		n0.next = n1;
 		n1.next = n2;
-		n2.next = n3;
+
 		n3.next = n4;
 		n4.next = n5;
 		n5.next = n6;
 
-		System.out.println(n0);
-		// System.out.println(partition(n0, 3));
-		System.out.println(partition2(n0, 3));
+		System.out.println(addListReverse(n0, n3));
 
 	}
 
 	@Test
 	public void generalTest() {
+		System.out.println(9 / 10);
+		System.out.println(9 % 10);
+		System.out.println(12 % 10);
+		System.out.println(12 / 10);
 	}
 }
 
