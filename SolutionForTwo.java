@@ -212,25 +212,150 @@ public class SolutionForTwo {
 
 		return sumList;
 	}
-	
-	public LinkedListNode addListReverse(LinkedListNode n1, LinkedListNode n2) {
-		
-		return null;
+
+	public LinkedListNode addListReverse2(LinkedListNode n1, LinkedListNode n2,
+			int flag) {
+		// using recursion
+		if (n1 == null && n2 == null && flag == 0) {
+			return null;
+		}
+
+		LinkedListNode result = new LinkedListNode(flag);
+
+		int value = flag;
+		if (n1 != null) {
+			value += n1.data;
+		}
+
+		if (n2 != null) {
+			value += n2.data;
+		}
+
+		result.data = value % 10;
+
+		if (n1 != null || n2 != null) {
+			LinkedListNode more = addListReverse2(n1 == null ? null : n1.next,
+					n2 == null ? null : n2.next, value >= 10 ? 1 : 0);
+			result.next = more;
+		}
+		return result;
 	}
 
 	public LinkedListNode addListForward(LinkedListNode n1, LinkedListNode n2) {
 
-		return null;
+		int value1 = listValue(n1);
+		int value2 = listValue(n2);
+		String totalValue = new Integer(value1 + value2).toString();
+
+		int length = totalValue.toString().length();
+		int index = 0;
+		LinkedListNode addedNode = new LinkedListNode(-1);
+		LinkedListNode currentNode = addedNode;
+
+		while (length > 0) {
+			int data = new Integer(
+					new Character(totalValue.charAt(index)).toString());
+			if (currentNode.data == -1) {
+				currentNode.data = data;
+			} else {
+				currentNode.next = new LinkedListNode(data);
+				currentNode = currentNode.next;
+			}
+
+			length--;
+			index++;
+		}
+
+		return addedNode;
+	}
+
+	public int listValue(LinkedListNode n) {
+		int len = n.length();
+		int value = 0;
+		while (len > 0) {
+			value += n.data * Math.pow(10, len - 1);
+			n = n.next;
+			len -= 1;
+		}
+
+		return (int) value;
+	}
+
+	// 2.5 solution from the book
+	class PartResult {
+		LinkedListNode sumList = null;
+		int flag = 0;
+	}
+
+	public LinkedListNode addListForward2(LinkedListNode n1, LinkedListNode n2) {
+		int len1 = n1.length();
+		int len2 = n2.length();
+
+		if (len1 < len2) {
+			n1 = paddingLeft(n1, len2 - len1);
+		} else if (len1 > len2) {
+			n2 = paddingLeft(n2, len1 - len2);
+		}
+
+		PartResult pr = addListHelper(n1, n2);
+
+		if (pr.flag == 0) {
+			return pr.sumList;
+		} else {
+			return insertBefore(pr.sumList, pr.flag);
+		}
+
+	}
+
+	private LinkedListNode insertBefore(LinkedListNode sumList, int num) {
+		LinkedListNode head = new LinkedListNode(num);
+		sumList.prev = head;
+		head.next = sumList;
+		return head;
+	}
+
+	private PartResult addListHelper(LinkedListNode n1, LinkedListNode n2) {
+		if (n1 == null && n2 == null) {
+			return new PartResult();
+		}
+
+		PartResult pr = addListHelper(n1.next, n2.next);
+
+		int value = pr.flag + n1.data + n2.data;
+		if (pr.sumList == null) { //take care of the NullPointer
+			pr.sumList = new LinkedListNode(value % 10);
+		} else {
+			pr.sumList = insertBefore(pr.sumList, value % 10);
+		}
+		if (value >= 10) {
+			pr.flag = 1;
+		} else { 
+			pr.flag = 0;
+		}
+
+		return pr;
+	}
+
+	private LinkedListNode paddingLeft(LinkedListNode n, int i) {
+		// TODO Auto-generated method stub
+		while (i > 0) {
+			LinkedListNode paddingNode = new LinkedListNode(0);
+			n.prev = paddingNode;
+			paddingNode.next = n;
+			n = paddingNode;
+			i -= 1;
+		}
+		return n;
 	}
 
 	@Test
 	public void test1() {
-		LinkedListNode n0 = new LinkedListNode(7);
+		LinkedListNode n0 = new LinkedListNode(6);
 		LinkedListNode n1 = new LinkedListNode(1);
-		LinkedListNode n2 = new LinkedListNode(6);
-		LinkedListNode n3 = new LinkedListNode(5);
+		LinkedListNode n2 = new LinkedListNode(7);
+		LinkedListNode n3 = new LinkedListNode(2);
 		LinkedListNode n4 = new LinkedListNode(9);
-		LinkedListNode n5 = new LinkedListNode(3);
+		LinkedListNode n5 = new LinkedListNode(5);
 		LinkedListNode n6 = new LinkedListNode(2);
 
 		n0.next = n1;
@@ -239,17 +364,16 @@ public class SolutionForTwo {
 		n3.next = n4;
 		n4.next = n5;
 		n5.next = n6;
-
-		System.out.println(addListReverse(n0, n3));
+		System.out.println(addListForward2(n0, n3));
 
 	}
 
 	@Test
 	public void generalTest() {
-		System.out.println(9 / 10);
-		System.out.println(9 % 10);
-		System.out.println(12 % 10);
-		System.out.println(12 / 10);
+		LinkedListNode n1 = new LinkedListNode(3);
+		LinkedListNode n2 = n1;
+		n1.data = 4;
+		System.out.println(n2.data);
 	}
 }
 
@@ -257,6 +381,7 @@ class LinkedListNode {
 
 	public int data;
 	public LinkedListNode next;
+	public LinkedListNode prev;
 
 	public LinkedListNode(int d) {
 		data = d;
