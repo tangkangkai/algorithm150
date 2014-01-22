@@ -322,14 +322,14 @@ public class SolutionForTwo {
 		PartResult pr = addListHelper(n1.next, n2.next);
 
 		int value = pr.flag + n1.data + n2.data;
-		if (pr.sumList == null) { //take care of the NullPointer
+		if (pr.sumList == null) { // take care of the NullPointer
 			pr.sumList = new LinkedListNode(value % 10);
 		} else {
 			pr.sumList = insertBefore(pr.sumList, value % 10);
 		}
 		if (value >= 10) {
 			pr.flag = 1;
-		} else { 
+		} else {
 			pr.flag = 0;
 		}
 
@@ -348,24 +348,52 @@ public class SolutionForTwo {
 		return n;
 	}
 
+	// 2.6
+	public LinkedListNode findBeginning(LinkedListNode n) {
+		LinkedListNode slowNode = n;
+		LinkedListNode fastNode = n;
+
+		while (fastNode != null && fastNode.next != null) {
+			fastNode = fastNode.next.next;
+			slowNode = slowNode.next;
+			if (fastNode == slowNode) {
+				break;
+			}
+		}
+
+		if (fastNode == null || fastNode.next == null) {
+			return null;
+		}
+
+		slowNode = n;
+		while (slowNode != fastNode) {
+			slowNode = slowNode.next;
+			fastNode = fastNode.next;
+		}
+
+		return slowNode;
+	}
+
 	@Test
 	public void test1() {
 		LinkedListNode n0 = new LinkedListNode(6);
 		LinkedListNode n1 = new LinkedListNode(1);
 		LinkedListNode n2 = new LinkedListNode(7);
-		LinkedListNode n3 = new LinkedListNode(2);
+		LinkedListNode n3 = new LinkedListNode(3);
 		LinkedListNode n4 = new LinkedListNode(9);
 		LinkedListNode n5 = new LinkedListNode(5);
 		LinkedListNode n6 = new LinkedListNode(2);
 
 		n0.next = n1;
 		n1.next = n2;
-
+		n2.next = n3;
 		n3.next = n4;
 		n4.next = n5;
 		n5.next = n6;
-		System.out.println(addListForward2(n0, n3));
+		n6.next = n3;
 
+		// System.out.println(addListForward2(n0, n3));
+		System.out.println(findBeginning(n0).data);
 	}
 
 	@Test
