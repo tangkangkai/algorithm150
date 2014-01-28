@@ -170,6 +170,25 @@ public class SolutionForThree {
 
 	}
 
+	// 3.6
+	public Stack<Integer> sortStack(Stack<Integer> originStack) {
+		Stack<Integer> helpStack = new Stack<>();
+
+		while (!originStack.isEmpty()) {
+			int temp = originStack.pop();
+			while (!helpStack.isEmpty() && helpStack.peek() > temp) {
+				originStack.push(helpStack.pop());
+			}
+
+			helpStack.push(temp);
+		}
+
+		return helpStack;
+
+	}	
+	
+	//3.7
+
 	@Test
 	public void test1() {
 		StackWithMin stack = new StackWithMin();
@@ -202,7 +221,20 @@ public class SolutionForThree {
 
 	@Test
 	public void test5() {
-		
+
+	}
+
+	@Test
+	public void test6() {
+		Stack<Integer> stack = new Stack<>();
+		stack.push(1);
+		stack.push(4);
+		stack.push(5);
+		stack.push(18);
+		stack.push(7);
+
+		System.out.println(stack);
+		System.out.println(sortStack(stack));
 	}
 
 	@Test
@@ -252,6 +284,22 @@ public class SolutionForThree {
 
 		public boolean isEmpty() {
 			return top == null;
+		}
+
+		public String toString() {
+			Stack<T> tempStack = new Stack<>();
+			
+			String s = "";
+			while (!this.isEmpty()) {
+				T element = this.pop();
+				s += element + "  ";
+				tempStack.push(element);
+			}
+			
+			while(!tempStack.isEmpty()) {
+				this.push(tempStack.pop());
+			}
+			return s;
 		}
 
 	}
