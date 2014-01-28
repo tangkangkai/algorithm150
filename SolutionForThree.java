@@ -110,6 +110,66 @@ public class SolutionForThree {
 		}
 	}
 
+	// 3.4
+
+	public void hanoi(int n, Stack<Integer> s1, Stack<Integer> s2,
+			Stack<Integer> s3) {
+		if (n == 0) {
+			System.out.println("no plate");
+			return;
+		}
+
+		if (n == 1) {
+			s3.push(s1.pop());
+			System.out.println("Move one plate from " + s1 + " to " + s3);
+		} else {
+			hanoi(n - 1, s1, s3, s2);
+			hanoi(1, s1, s2, s3);
+			hanoi(n - 1, s2, s1, s3);
+		}
+	}
+
+	class Plate extends Stack<Integer> {
+		String name;
+
+		public Plate(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return name;
+		}
+
+	}
+
+	// 3.5
+
+	class MyQueue {
+		Stack<Integer> originStack = new Stack<>();
+		Stack<Integer> reverseStack = new Stack<>();
+
+		public void push(int value) {
+			originStack.push(value);
+		}
+
+		public Integer pop() {
+			while (!originStack.isEmpty()) {
+				reverseStack.push(originStack.pop());
+			}
+
+			Integer value = reverseStack.pop();
+
+			while (!reverseStack.isEmpty()) {
+				originStack.push(reverseStack.pop());
+			}
+
+			return value;
+		}
+
+	}
+
 	@Test
 	public void test1() {
 		StackWithMin stack = new StackWithMin();
@@ -128,6 +188,24 @@ public class SolutionForThree {
 	}
 
 	@Test
+	public void test4() {
+		Plate stackA = new Plate("A");
+		Plate stackB = new Plate("B");
+		Plate stackC = new Plate("C");
+
+		stackA.push(3);
+		stackA.push(2);
+		stackA.push(1);
+
+		hanoi(3, stackA, stackB, stackC);
+	}
+
+	@Test
+	public void test5() {
+		
+	}
+
+	@Test
 	public void generalTest() {
 		ArrayList<Integer> al = new ArrayList<>();
 		al.add(1);
@@ -138,7 +216,7 @@ public class SolutionForThree {
 		al.remove(1);
 		System.out.println(al);
 		System.out.println(al.get(1));
-		
+
 	}
 
 	class Node<T> {
@@ -170,6 +248,10 @@ public class SolutionForThree {
 
 		public T peek() {
 			return top.data;
+		}
+
+		public boolean isEmpty() {
+			return top == null;
 		}
 
 	}
