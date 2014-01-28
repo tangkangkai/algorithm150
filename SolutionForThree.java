@@ -131,12 +131,19 @@ public class SolutionForThree {
 	public void generalTest() {
 		ArrayList<Integer> al = new ArrayList<>();
 		al.add(1);
+		al.add(2);
+		al.add(3);
 		System.out.println(al.get(0));
+		System.out.println(al);
+		al.remove(1);
+		System.out.println(al);
+		System.out.println(al.get(1));
+		
 	}
 
 	class Node<T> {
 		T data;
-		Node next;
+		Node<T> next;
 
 		public Node(T d) {
 			this.data = d;
@@ -167,11 +174,11 @@ public class SolutionForThree {
 
 	}
 
-	class Queue {
-		Node first, last;
+	class Queue<T> {
+		Node<T> first, last;
 
-		public void enqueue(Object item) {
-			Node newNode = new Node(item);
+		public void enqueue(T item) {
+			Node<T> newNode = new Node<T>(item);
 			if (first == null) {
 				last = newNode;
 				first = last;
