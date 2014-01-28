@@ -2,6 +2,7 @@ package algorithm150;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Stack;
 
 import org.junit.Test;
 
@@ -372,6 +373,33 @@ public class SolutionForTwo {
 		}
 
 		return slowNode;
+	}
+
+	// 2.7
+	public boolean isPalindrome(LinkedListNode head) {
+
+		LinkedListNode fastNode = head;
+		LinkedListNode slowNode = head;
+		Stack<Integer> stack = new Stack<Integer>();
+
+		while (fastNode != null && fastNode.next != null) {
+			stack.push(slowNode.data);
+			fastNode = fastNode.next.next;
+			slowNode = slowNode.next;
+		}
+
+		if (fastNode != null) {
+			slowNode = slowNode.next;
+		}
+
+		while (slowNode != null) {
+			if (slowNode.data != stack.pop().intValue()) {
+				return false;
+			}
+			slowNode = slowNode.next;
+		}
+
+		return true;
 	}
 
 	@Test
