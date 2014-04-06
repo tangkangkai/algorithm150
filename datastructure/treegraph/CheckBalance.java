@@ -8,28 +8,24 @@ import org.junit.Test;
 public class CheckBalance {
 
 	public boolean ifBalanced(BinaryTreeNode root) {
-		if (getHeight(root) == 0) {
-			return true;
-		} else if (Math.abs(getHeight(root.left) - getHeight(root.right)) > 1) {
+		if (getHeight(root) == -1) {
 			return false;
 		} else {
-			return ifBalanced(root.left) && ifBalanced(root.right);
+			return true;
 		}
 	}
-	
-	
 
 	public int getHeight(BinaryTreeNode root) {
-		if (root.left == null && root.right == null) {
+		if (root == null) {
 			return 0;
-		} else if (root.left == null) {
-			return 1 + getHeight(root.right);
-		} else if (root.right == null) {
-			return 1 + getHeight(root.left);
 		} else {
 			int leftHeight = getHeight(root.left);
 			int rightHeight = getHeight(root.right);
-			return leftHeight > rightHeight ? 1 + leftHeight : 1 + rightHeight;
+			if (leftHeight == -1 || rightHeight == -1
+					|| Math.abs(leftHeight - rightHeight) > 1) {
+				return -1;
+			}
+			return 1 + Math.max(leftHeight, rightHeight);
 		}
 	}
 
